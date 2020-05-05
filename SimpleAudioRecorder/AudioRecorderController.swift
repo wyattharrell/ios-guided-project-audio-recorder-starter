@@ -42,6 +42,7 @@ class AudioRecorderController: UIViewController {
                                                                    weight: .regular)
         loadAudio()
         updateViews()
+        try? prepareAudioSession() 
     }
     
     deinit {
