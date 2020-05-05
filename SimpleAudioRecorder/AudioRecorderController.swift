@@ -115,6 +115,7 @@ class AudioRecorderController: UIViewController {
         didSet {
             // Using a didSet allows us to make sure we don't forget to set the delegate
             audioPlayer?.delegate = self
+            audioPlayer?.isMeteringEnabled = true
         }
     }
     
@@ -211,6 +212,7 @@ class AudioRecorderController: UIViewController {
         let format = AVAudioFormat(standardFormatWithSampleRate: 44_100, channels: 1)!
         audioRecorder = try? AVAudioRecorder(url: recordingURL, format: format)
         audioRecorder?.delegate = self
+        audioRecorder?.isMeteringEnabled = true
         audioRecorder?.record()
         self.recordingURL = recordingURL
         updateViews()
