@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class AudioRecorderController: UIViewController {
     
@@ -39,8 +40,11 @@ class AudioRecorderController: UIViewController {
                                                           weight: .regular)
         timeRemainingLabel.font = UIFont.monospacedDigitSystemFont(ofSize: timeRemainingLabel.font.pointSize,
                                                                    weight: .regular)
-        
         loadAudio()
+    }
+    
+    private func updateViews(){
+        playButton.isSelected = isPlaying
     }
     
     
@@ -81,10 +85,18 @@ class AudioRecorderController: UIViewController {
     
     // MARK: - Playback
     
+    var audioPlayer: AVAudioPlayer?
+    
+    var isPlaying: Bool {
+        audioPlayer?.isPlaying ?? false
+    }
+    
     func loadAudio() {
+        // App Bundle is read-only (Download from the App Store - or install from Xcode)
+        // Documents directory is read-write
         let songURL = Bundle.main.url(forResource: "piano", withExtension: "mp3")!
         
-        
+        audioPlayer = try? AVAudioPlayer(contentsOf: songURL)
     }
     
     /*
@@ -96,13 +108,14 @@ class AudioRecorderController: UIViewController {
     */
     
     func play() {
-        
+        audioPlayer?.play()
+        updateViews()
     }
     
     func pause() {
-        
+        audioPlayer?.pause()
+        updateViews()
     }
-    
     
     // MARK: - Recording
     
@@ -112,7 +125,7 @@ class AudioRecorderController: UIViewController {
         let name = ISO8601DateFormatter.string(from: Date(), timeZone: .current, formatOptions: .withInternetDateTime)
         let file = documents.appendingPathComponent(name, isDirectory: false).appendingPathExtension("caf")
         
-//        print("recording URL: \(file)")
+        // print("recording URL: \(file)")
         
         return file
     }
@@ -161,7 +174,11 @@ class AudioRecorderController: UIViewController {
     // MARK: - Actions
     
     @IBAction func togglePlayback(_ sender: Any) {
-        
+        if isPlaying {
+            pause()
+        } else {
+            play()
+        }
     }
     
     @IBAction func updateCurrentTime(_ sender: UISlider) {
