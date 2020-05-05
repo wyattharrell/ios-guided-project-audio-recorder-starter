@@ -216,11 +216,13 @@ class AudioRecorderController: UIViewController {
         audioRecorder?.record()
         self.recordingURL = recordingURL
         updateViews()
+        startTimer()
     }
     
     func stopRecording() {
         audioRecorder?.stop()
         updateViews()
+        cancelTimer()
     }
     
     // MARK: - Actions
