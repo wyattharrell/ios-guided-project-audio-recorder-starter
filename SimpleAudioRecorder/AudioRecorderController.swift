@@ -131,6 +131,7 @@ class AudioRecorderController: UIViewController {
     }
     
     
+    // Fixes bug for iPhone
     func prepareAudioSession() throws {
         let session = AVAudioSession.sharedInstance()
         try session.setCategory(.playAndRecord, options: [.defaultToSpeaker])
