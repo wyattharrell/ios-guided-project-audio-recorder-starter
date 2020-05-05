@@ -41,6 +41,12 @@ class AudioRecorderController: UIViewController {
         timeRemainingLabel.font = UIFont.monospacedDigitSystemFont(ofSize: timeRemainingLabel.font.pointSize,
                                                                    weight: .regular)
         loadAudio()
+        updateViews()
+    }
+    
+    deinit {
+        // Protects us from a crash if the timeer is still going when the user navigates away from the timer UI
+        cancelTimer()
     }
     
     private func updateViews(){
@@ -71,7 +77,7 @@ class AudioRecorderController: UIViewController {
     var timer: Timer?
     
     func startTimer() {
-        timer?.invalidate()
+        timer?.invalidate() // Cancel a timeer before you start a new one
         
         timer = Timer.scheduledTimer(withTimeInterval: 0.030, repeats: true) { [weak self] (_) in
             guard let self = self else { return }
