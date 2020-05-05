@@ -86,20 +86,20 @@ class AudioRecorderController: UIViewController {
             
             self.updateViews()
             
-//            if let audioRecorder = self.audioRecorder,
-//                self.isRecording == true {
-//
-//                audioRecorder.updateMeters()
-//                self.audioVisualizer.addValue(decibelValue: audioRecorder.averagePower(forChannel: 0))
-//
-//            }
-//
-//            if let audioPlayer = self.audioPlayer,
-//                self.isPlaying == true {
-//
-//                audioPlayer.updateMeters()
-//                self.audioVisualizer.addValue(decibelValue: audioPlayer.averagePower(forChannel: 0))
-//            }
+            if let audioRecorder = self.audioRecorder,
+                self.isRecording == true {
+
+                audioRecorder.updateMeters()
+                self.audioVisualizer.addValue(decibelValue: audioRecorder.averagePower(forChannel: 0))
+
+            }
+
+            if let audioPlayer = self.audioPlayer,
+                self.isPlaying == true {
+
+                audioPlayer.updateMeters()
+                self.audioVisualizer.addValue(decibelValue: audioPlayer.averagePower(forChannel: 0))
+            }
         }
     }
     
@@ -130,13 +130,13 @@ class AudioRecorderController: UIViewController {
         audioPlayer = try? AVAudioPlayer(contentsOf: songURL)
     }
     
-    /*
+    
     func prepareAudioSession() throws {
         let session = AVAudioSession.sharedInstance()
         try session.setCategory(.playAndRecord, options: [.defaultToSpeaker])
         try session.setActive(true, options: []) // can fail if on a phone call, for instance
     }
-    */
+    
     
     func play() {
         audioPlayer?.play()
@@ -170,7 +170,7 @@ class AudioRecorderController: UIViewController {
         return file
     }
     
-    /*
+    
     func requestPermissionOrStartRecording() {
         switch AVAudioSession.sharedInstance().recordPermission {
         case .undetermined:
@@ -201,10 +201,9 @@ class AudioRecorderController: UIViewController {
             break
         }
     }
-    */
+    
     
     func startRecording() {
-        
         let recordingURL = createNewRecordingURL()
         
         let format = AVAudioFormat(standardFormatWithSampleRate: 44_100, channels: 1)!
